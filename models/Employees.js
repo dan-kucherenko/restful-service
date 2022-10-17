@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const EmployeesSchema = mongoose.Schema({
-    id:{
+    employee_id:{
         type: String,
         required: true
     },
@@ -12,7 +12,10 @@ const EmployeesSchema = mongoose.Schema({
     gender:{
         enum:['F','M']
     },
-    hire_date: Date
+    hire_date:{
+        type: Date,
+        default: Date.now()
+    }
 });
 
-module.exports = mongoose.models('Employees', EmployeesSchema);
+module.exports = mongoose.model('Employees', EmployeesSchema);
