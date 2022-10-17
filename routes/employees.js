@@ -3,9 +3,14 @@ const express = require('express');
 const router = express.Router();
 const Employees = require('../models/Employees');
 
-// GET method
+// GET method for all elements
 router.get('/', (req, res) => {
-    res.send('We are on employees page');
+    Employees.find().then(data => {
+        res.json(data);
+    })
+        .catch(err => {
+            res.json({message: err})
+        });
 });
 
 // POST method
