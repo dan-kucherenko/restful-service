@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const EmployeesSchema = mongoose.Schema({
-    employee_id:{
+    employee_id: {
         type: String,
         required: true
     },
@@ -9,10 +9,8 @@ const EmployeesSchema = mongoose.Schema({
     last_name: String,
     age: Number,
     dob: Date,
-    gender:{
-        enum:['F','M']
-    },
-    hire_date:{
+    gender: String,
+    hire_date: {
         type: Date,
         default: Date.now()
     }
