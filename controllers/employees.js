@@ -52,10 +52,14 @@ const addEmployee = async (req, res) => {
         hire_date: req.body.hire_date
     });
     try {
+        if (Employee.find({employee_id: req.body.employee_id}) != null)
+            throw new Error('One of your employees already has this employee_id, which is unique');
+        if (Employee.find({email: req.body.email}) != null)
+            throw new Error('One of your employees already has this email, which is unique');
         const savedEmployee = await newEmployee.save();
         res.json(savedEmployee);
     } catch (err) {
-        res.json({message: err});
+        res.json(err.message);
     }
 };
 
