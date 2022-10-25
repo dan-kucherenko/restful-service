@@ -1,20 +1,27 @@
 "use strict"
 const router = require('express').Router();
 const controller = require('../controllers/employees')
-// const EmployeesDAO = require('../models/EmployeeDAO');
-// const employeesDAO = EmployeesDAO;
+const EmployeesDAO = require('../models/EmployeeDAO');
+const employeesDAO = EmployeesDAO;
+
+/* TODO: finish EmployeeDAO realisation, check all the functions. Add new data fields to the EmployeeSchema: department, role, etc.
+*   Add business logic functions (av. salary in department, av age of the employees. */
+
 
 // GET func for all elements
-router.get('/', controller.getEmployees);
+router.get('/', employeesDAO.showEmployees);
 
 // GET func for exact employee_id
 router.get('/:employee_id', controller.getEmployee);
 
 // GET func for exact department
-router.get('/:department', controller.getEmployeesFromDepartment);
+router.get('/departments/:department', controller.getEmployeesFromDepartment);
+
+// GET func for salary
+router.get('/departments/average_salary/:department', controller.getAverageSalary);
 
 // GET func for exact position employees
-router.get('/:position', controller.getEmployeesWithPosition);
+router.get('/positions/:position', controller.getEmployeesWithPosition);
 
 // POST func
 router.post('/', controller.addEmployee);

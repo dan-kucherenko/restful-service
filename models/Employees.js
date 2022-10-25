@@ -7,6 +7,7 @@ const EmployeesSchema = mongoose.Schema({
     email: {type: String, required: true},
     age: Number,
     position: {type: String, required: true},
+    salary: {type: Number, required: true},
     department: {type: String, required: true},
     country_support: {type: String, required: true},
     contract_type: {type: String, required: true},

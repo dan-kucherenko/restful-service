@@ -7,7 +7,7 @@ const getEmployees = async (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
-}
+};
 
 const getEmployee = async (req, res) => {
     try {
@@ -16,7 +16,7 @@ const getEmployee = async (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
-}
+};
 
 const getEmployeesFromDepartment = async (req, res) => {
     try {
@@ -25,7 +25,7 @@ const getEmployeesFromDepartment = async (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
-}
+};
 
 const getEmployeesWithPosition = async (req, res) => {
     try {
@@ -34,7 +34,7 @@ const getEmployeesWithPosition = async (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
-}
+};
 
 const addEmployee = async (req, res) => {
     const newEmployee = new Employee({
@@ -44,6 +44,7 @@ const addEmployee = async (req, res) => {
         email: req.body.email,
         age: req.body.age,
         position: req.body.position,
+        salary: req.body.salary,
         department: req.body.department,
         country_support: req.body.country_support,
         contract_type: req.body.contract_type,
@@ -56,7 +57,7 @@ const addEmployee = async (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
-}
+};
 
 const removeEmployee = async (req, res) => {
     try {
@@ -65,7 +66,7 @@ const removeEmployee = async (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
-}
+};
 
 const updateEmployeeInfo = async (req, res) => {
     try {
@@ -75,23 +76,44 @@ const updateEmployeeInfo = async (req, res) => {
     } catch (err) {
         res.json({message: err});
     }
-}
+};
 
 const promoteEmployee = async (req, res) => {
     try {
         const updatedEmployeeInfo = await Employee.updateOne({employee_id: req.params.employee_id},
             {$set: {position: req.body.position}});
         res.json(updatedEmployeeInfo);
-    }catch (err){
+    } catch (err) {
         res.json({message: err});
     }
-}
+};
+
+const getAverageSalary = async (req, res) => {
+    try {
+        const average_salary = await Employee.aggregate([
+            {
+                $match: {department: req.params.department}
+            },
+            {
+                $group: {
+                    _id: '$department',
+                    average_salary: {$avg: "$salary"}
+                }
+            }
+        ]);
+        res.json(average_salary);
+    } catch (err) {
+        res.json({message: err});
+    }
+};
+
 
 module.exports = {
     getEmployees,
     getEmployee,
     getEmployeesFromDepartment,
     getEmployeesWithPosition,
+    getAverageSalary,
     addEmployee,
     removeEmployee,
     updateEmployeeInfo,
